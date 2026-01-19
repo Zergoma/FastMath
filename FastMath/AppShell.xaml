@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="FastMath.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:FastMath.MVVM.Views"
+    xmlns:traduction="clr-namespace:FastMath.Resources.languages"
+    xmlns:local="clr-namespace:FastMath"
+    Title="FastMath">
+
+    <FlyoutItem Title="{Static traduction:Trad.SimpleAdditionTitle}">
+        <Tab>
+            <ShellContent
+                Title="{Static traduction:Trad.SimpleAdditionTitle}"
+                ContentTemplate="{DataTemplate views:SimpleAdditionView}"
+                Route="SimpleAdditionView"/>
+
+        </Tab>
+    </FlyoutItem>
+
+</Shell>
