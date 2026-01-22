@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="FastMath/FastMath.csproj" />
+  <Project Path="FastMath.Core.Tests/FastMath.Core.Tests.csproj" />
+  <Project Path="FastMath.Core/FastMath.Core.csproj" />
+  <Project Path="FastMath/FastMath.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>

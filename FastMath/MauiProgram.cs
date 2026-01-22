@@ -1,5 +1,7 @@
-﻿using FastMath.MVVM.ViewModels;
+﻿using FastMath.Core.Abstraction;
+using FastMath.MVVM.ViewModels;
 using FastMath.MVVM.Views;
+using FastMath.Services;
 using Microsoft.Extensions.Logging;
 
 namespace FastMath
@@ -23,6 +25,11 @@ namespace FastMath
 
             builder.Services.AddTransient<SimpleAdditionView>();
             builder.Services.AddTransient<SimpleAdditionViewModel>();
+
+            builder.Services.AddSingleton<IGetAddition, AdditionService>();
+            builder.Services.AddSingleton<IGetDivide, DivideService>();
+            builder.Services.AddSingleton<IGetMultiplication, MultiplicationService>();
+            builder.Services.AddSingleton<IGetSoustraction, SoustractionService>();
 
             return builder.Build();
         }
