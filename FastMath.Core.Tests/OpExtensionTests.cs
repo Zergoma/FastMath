@@ -41,13 +41,13 @@ public class OpExtensionTests
     {
         AdditionnalOp addOp = new() { Left = 10, Right = 20.2M };
 
-        var left = addOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.left });
+        var left = addOp.GetOffuscatedValue(EOperationMask.left);
         Assert.AreEqual(10M, left);
 
-        var right = addOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.right });
+        var right = addOp.GetOffuscatedValue(EOperationMask.right);
         Assert.AreEqual(20.2M, right);
 
-        var resu = addOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.result });
+        var resu = addOp.GetOffuscatedValue(EOperationMask.result);
         Assert.AreEqual(30.2M, resu);
     }
 
@@ -58,13 +58,13 @@ public class OpExtensionTests
         ComputeOperandOption OperandOption2 = new (randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
         AdditionnalOp addOp = new() { Left = 10, Right = 20 };
 
-        var left = addOp.GetOffuscatedValueMax(new() { Masked = Models.OperationMasked.left }, left: OperandOption1, right: OperandOption2);
+        var left = addOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
         Assert.AreEqual(10M, left);
 
-        var right = addOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.right });
+        var right = addOp.GetOffuscatedValue(Models.EOperationMask.right);
         Assert.AreEqual(20M, right);
 
-        var resu = addOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.result });
+        var resu = addOp.GetOffuscatedValue(Models.EOperationMask.result);
         Assert.AreEqual(30, resu);
     }
 
@@ -75,13 +75,13 @@ public class OpExtensionTests
         ComputeOperandOption OperandOption2 = new(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
         MultiplyOp mulOp = new() { Left = 10, Right = 20 };
 
-        var left = mulOp.GetOffuscatedValueMax(new() { Masked = Models.OperationMasked.left }, left: OperandOption1, right: OperandOption2);
+        var left = mulOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
         Assert.AreEqual(10M, left);
 
-        var right = mulOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.right });
+        var right = mulOp.GetOffuscatedValue(Models.EOperationMask.right);
         Assert.AreEqual(20M, right);
 
-        var resu = mulOp.GetOffuscatedValue(new() { Masked = Models.OperationMasked.result });
+        var resu = mulOp.GetOffuscatedValue(Models.EOperationMask.result);
         Assert.AreEqual(200, resu);
     }
 }

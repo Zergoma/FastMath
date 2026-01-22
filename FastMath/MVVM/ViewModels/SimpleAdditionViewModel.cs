@@ -42,8 +42,7 @@ namespace FastMath.MVVM.ViewModels
                         => string.Empty,
 
                     OperationalVisibility.VisibilityMode.ShowAll
-                        => DisplayState.Operation.ToString(
-                               new() { Masked = OperationMasked.none }),
+                        => DisplayState.Operation.ToString(EOperationMask.none),
 
                     _ => DisplayState.Operation.ToString(DisplayState.Mask)
                 };
@@ -105,7 +104,7 @@ namespace FastMath.MVVM.ViewModels
 
         private void GenerateNewOp(OperationalBase op)
         {
-            OperationMask opMask = new();
+            EOperationMask opMask = OperationMaskHelper.CreateRandomMask();
 
             OperationalVisibility visibility = new()
             {
