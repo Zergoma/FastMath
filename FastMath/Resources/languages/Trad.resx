@@ -120,6 +120,9 @@
   <data name="SimpleAdditionTitle" xml:space="preserve">
     <value>Simple Addition</value>
   </data>
+  <data name="SimpleDivideTitle" xml:space="preserve">
+    <value>Simple Divide</value>
+  </data>
   <data name="SimpleMultiplyTitle" xml:space="preserve">
     <value>Simple Multiply</value>
   </data>
