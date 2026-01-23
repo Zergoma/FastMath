@@ -5,7 +5,7 @@
              xmlns:traduction="clr-namespace:FastMath.Resources.languages"
              xmlns:vm="clr-namespace:FastMath.MVVM.ViewModels"
              xmlns:model="clr-namespace:FastMath.Core.Models;assembly=FastMath.Core"
-             x:DataType="vm:SimpleAdditionViewModel"
+             x:DataType="vm:SimpleOperationBaseViewModel"
              Title="{Static traduction:Trad.SimpleAdditionTitle}">
 
 
