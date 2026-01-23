@@ -26,10 +26,10 @@ namespace FastMath
             builder.Services.AddTransient<SimpleAdditionView>();
             builder.Services.AddTransient<SimpleAdditionViewModel>();
 
-            builder.Services.AddSingleton<IGetAddition, AdditionService>();
-            builder.Services.AddSingleton<IGetDivide, DivideService>();
-            builder.Services.AddSingleton<IGetMultiplication, MultiplicationService>();
-            builder.Services.AddSingleton<IGetSoustraction, SoustractionService>();
+            builder.Services.AddSingleton<AdditionService>();
+            builder.Services.AddSingleton<DivideService>();
+            builder.Services.AddSingleton<MultiplicationService>();
+            builder.Services.AddSingleton<SoustractionService>();
 
             return builder.Build();
         }

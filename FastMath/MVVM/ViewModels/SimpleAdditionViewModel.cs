@@ -1,26 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FastMath.Core.Abstraction;
-using FastMath.Core.Models;
 using FastMath.Core.Extension;
-using ListShuffle;
 using FastMath.Core.Helper;
+using FastMath.Core.Models;
+using FastMath.Core.Models.OperandOption;
+using FastMath.Services;
+using ListShuffle;
 
 
 namespace FastMath.MVVM.ViewModels
 {
     public partial class SimpleAdditionViewModel : ObservableObject
     {
-        private readonly IGetAddition ServiceAddition;
-        public SimpleAdditionViewModel(IGetAddition serviceAddition)
+        private readonly IGetOperation ServiceAddition;
+        public SimpleAdditionViewModel(AdditionService serviceAddition)
         {
             NbSuggestedElement = 4;
             ServiceAddition = serviceAddition;
 
-            OperandOption1 = new ComputeOperandOption(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
-            OperandOption2 = new ComputeOperandOption(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
+            OperandOption1 = new RandomOperandOption(Value: 10);
+            OperandOption2 = new RandomOperandOption(Value: 10);
 
-            GenerateNewOp(ServiceAddition.GetAddition(OperandOption1, OperandOption2));
+            GenerateNewOp(ServiceAddition.CreateOperation(OperandOption1, OperandOption2));
         }
 
         [ObservableProperty]
@@ -53,10 +55,10 @@ namespace FastMath.MVVM.ViewModels
         List<SuggestedAnswer> possibledAnswers = new();
 
         [ObservableProperty]
-        ComputeOperandOption operandOption1;
+        OperandOptionBase operandOption1;
 
         [ObservableProperty]
-        ComputeOperandOption operandOption2;
+        OperandOptionBase operandOption2;
 
         [ObservableProperty]
         int nbSuggestedElement;
@@ -88,7 +90,7 @@ namespace FastMath.MVVM.ViewModels
 
                 await Task.Delay(TimeSpan.FromSeconds(1));
 
-                GenerateNewOp(ServiceAddition.GetAddition(OperandOption1, OperandOption2));
+                GenerateNewOp(ServiceAddition.CreateOperation(OperandOption1, OperandOption2));
             }
             catch(Exception ex)
             {
@@ -116,11 +118,15 @@ namespace FastMath.MVVM.ViewModels
                 new(){ Value = op.GetOffuscatedValue(opMask), IsGoodSolution = true},
             };
 
-            SuggestedListHelper.GenerateList(NbSuggestedElement, resu, op.GetOffuscatedValueMax(opMask, OperandOption1, OperandOption2));
+            var LeftOperandOption = OperandOption1;
+            var RightOperandOption = OperandOption2;
+            SuggestedListHelper.GenerateList(NbSuggestedElement, resu, op.GetOffuscatedValueMax(opMask, LeftOperandOption, RightOperandOption));
             resu.Shuffle();
             PossibledAnswers = resu;
 
-            DisplayState = new OperationDisplayState(op, opMask, visibility);
+            DisplayState = new OperationDisplayState(op, opMask, visibility, 
+                                                        LeftOperandOption: LeftOperandOption,
+                                                        RightOperandOption: RightOperandOption);
         }
     }
 }

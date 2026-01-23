@@ -38,22 +38,22 @@ namespace FastMath.Core.Extension
                 };
             }
 
-            public Decimal GetOffuscatedValueMax(EOperationMask mask, ComputeOperandOption left, ComputeOperandOption right)
+            public Decimal GetOffuscatedValueMax(EOperationMask mask, OperandOptionBase left, OperandOptionBase right)
             {
                 return mask switch
                 {
-                    EOperationMask.left => left.MaxOrValue,
-                    EOperationMask.right => right.MaxOrValue,
+                    EOperationMask.left => left.GetMax,
+                    EOperationMask.right => right.GetMax,
                     EOperationMask.result => operationBase.ComputeMax(left, right),
                     _ => throw new ArgumentOutOfRangeException(nameof(mask), "Must Left, Right or Result"),
                 };
             }
 
-            private Decimal ComputeMax(ComputeOperandOption left, ComputeOperandOption right)
+            private Decimal ComputeMax(OperandOptionBase left, OperandOptionBase right)
             {
-                if (operationBase is AdditionnalOp) return left.MaxOrValue + right.MaxOrValue;
-                if (operationBase is MultiplyOp) return left.MaxOrValue * right.MaxOrValue;
-                if (operationBase is SoustractionOp) return left.MaxOrValue - right.MaxOrValue;
+                if (operationBase is AdditionnalOp) return left.GetMax + right.GetMax;
+                if (operationBase is MultiplyOp) return left.GetMax * right.GetMax;
+                if (operationBase is SoustractionOp) return left.GetMax - right.GetMax;
                 if (operationBase is DivideOp)
                 {
                     if (right.GetValue() == decimal.Zero)

@@ -4,11 +4,11 @@ using FastMath.Core.Models.Operations;
 
 namespace FastMath.Services
 {
-    public class SoustractionService : IGetSoustraction
+    public class SoustractionService : IGetOperation
     {
-        public SoustractionOp GetSoustraction(ComputeOperandOption optionOperand1, ComputeOperandOption optionOperand2)
+        public OperationalBase CreateOperation(OperandOptionBase optionOperand1, OperandOptionBase optionOperand2)
         {
-            return new()
+            return new SoustractionOp()
             {
                 Left = optionOperand1.GetValue(),
                 Right = optionOperand2.GetValue()

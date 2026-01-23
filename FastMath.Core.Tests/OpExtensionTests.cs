@@ -1,5 +1,6 @@
 using FastMath.Core.Extension;
 using FastMath.Core.Models;
+using FastMath.Core.Models.OperandOption;
 using FastMath.Core.Models.Operations;
 
 namespace FastMath.Core.Tests;
@@ -54,8 +55,8 @@ public class OpExtensionTests
     [TestMethod]
     public void AddOpGetOffuscatedMax()
     {
-        ComputeOperandOption OperandOption1 = new(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true );
-        ComputeOperandOption OperandOption2 = new (randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
+        RandomOperandOption OperandOption1 = new(Value: 10, zeroAuthorized: true );
+        RandomOperandOption OperandOption2 = new (Value: 10, zeroAuthorized: true);
         AdditionnalOp addOp = new() { Left = 10, Right = 20 };
 
         var left = addOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
@@ -71,8 +72,8 @@ public class OpExtensionTests
     [TestMethod]
     public void MulOpGetOffuscatedMax()
     {
-        ComputeOperandOption OperandOption1 = new(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
-        ComputeOperandOption OperandOption2 = new(randOrFixed: OperandDof.randomized, maxOrValue: 10, zeroAuthorized: true);
+        RandomOperandOption OperandOption1 = new(Value: 10, zeroAuthorized: true);
+        RandomOperandOption OperandOption2 = new(Value: 10, zeroAuthorized: true);
         MultiplyOp mulOp = new() { Left = 10, Right = 20 };
 
         var left = mulOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
