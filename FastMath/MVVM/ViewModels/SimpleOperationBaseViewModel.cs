@@ -106,15 +106,16 @@ namespace FastMath.MVVM.ViewModels
             var rightOperandOption = OperandOption2;
             var opservice = OperationService;
             
-            EOperationMask opMask = OperationMaskHelper.CreateRandomMask();
 
             OperationalVisibility visibility = new()
             {
                 Mode = OperationalVisibility.VisibilityMode.UseMask
             };
 
-            
             var op = opservice.CreateOperation(leftOperandOption, rightOperandOption);
+
+            EOperationMask opMask = OperationMaskHelper.CreateRandomMask(op.FiltreMask());
+
             List<SuggestedAnswer> resu = new()
             {
                 new(){ Value = op.GetOffuscatedValue(opMask), IsGoodSolution = true},
