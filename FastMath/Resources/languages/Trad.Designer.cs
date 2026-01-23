@@ -70,6 +70,15 @@ namespace FastMath.Resources.languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Simple Divide.
+        /// </summary>
+        internal static string SimpleDivideTitle {
+            get {
+                return ResourceManager.GetString("SimpleDivideTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Simple Multiply.
         /// </summary>
         internal static string SimpleMultiplyTitle {

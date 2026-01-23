@@ -20,20 +20,18 @@
 
     <FlyoutItem Title="{Static traduction:Trad.SimpleAdditionTitle}">
         <Tab>
-            <ShellContent
-                Title="{Static traduction:Trad.SimpleAdditionTitle}"
-                ContentTemplate="{DataTemplate views:SimpleAdditionView}"
-                Route="SimpleAdditionView"/>
+            <ShellContent Title="{Static traduction:Trad.SimpleAdditionTitle}"
+                          ContentTemplate="{DataTemplate views:SimpleAdditionView}"
+                          Route="SimpleAdditionView"/>
 
         </Tab>
     </FlyoutItem>
 
     <FlyoutItem Title="{Static traduction:Trad.SimpleMultiplyTitle}">
         <Tab>
-            <ShellContent
-            Title="{Static traduction:Trad.SimpleMultiplyTitle}"
-            ContentTemplate="{DataTemplate views:MultiplyView}"
-            Route="SimpleMultiplyView"/>
+            <ShellContent Title="{Static traduction:Trad.SimpleMultiplyTitle}"
+                          ContentTemplate="{DataTemplate views:MultiplyView}"
+                          Route="SimpleMultiplyView"/>
 
         </Tab>
     </FlyoutItem>
@@ -41,10 +39,19 @@
 
     <FlyoutItem Title="{Static traduction:Trad.SimpleSubstractTitle}">
         <Tab>
-            <ShellContent
-        Title="{Static traduction:Trad.SimpleSubstractTitle}"
-        ContentTemplate="{DataTemplate views:SimpleSubstractView}"
-        Route="SimpleMultiplyView"/>
+            <ShellContent Title="{Static traduction:Trad.SimpleSubstractTitle}"
+                          ContentTemplate="{DataTemplate views:SimpleSubstractView}"
+                          Route="SimpleSubstractView"/>
+
+        </Tab>
+    </FlyoutItem>
+
+
+    <FlyoutItem Title="{Static traduction:Trad.SimpleDivideTitle}">
+        <Tab>
+            <ShellContent Title="{Static traduction:Trad.SimpleDivideTitle}"
+                          ContentTemplate="{DataTemplate views:SimpleDivideView}"
+                          Route="SimpleDivideView"/>
 
         </Tab>
     </FlyoutItem>

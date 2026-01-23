@@ -27,9 +27,9 @@ More features are planned to make the experience richer and more customizable.
 - [x] Addition
 - [x] Subtraction
 - [x] Multiplication
+- [X] Division
 
 ### Planned
-- [ ] Division
 - [ ] Configurable game modes
 - [ ] Random operation mode
 - [ ] User management (profiles & score tracking)
