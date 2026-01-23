@@ -38,4 +38,15 @@
         </Tab>
     </FlyoutItem>
 
+
+    <FlyoutItem Title="{Static traduction:Trad.SimpleSubstractTitle}">
+        <Tab>
+            <ShellContent
+        Title="{Static traduction:Trad.SimpleSubstractTitle}"
+        ContentTemplate="{DataTemplate views:SimpleSubstractView}"
+        Route="SimpleMultiplyView"/>
+
+        </Tab>
+    </FlyoutItem>
+
 </Shell>

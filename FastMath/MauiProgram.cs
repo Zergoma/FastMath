@@ -31,10 +31,15 @@ namespace FastMath
             builder.Services.AddTransient<MultiplyView>();
             builder.Services.AddTransient<SimpleMultiplyViewModel>();
 
+            builder.Services.AddTransient<SimpleSubstractView>();
+            builder.Services.AddTransient<SimpleSubstractionViewModel>();
+
+
+
             builder.Services.AddSingleton<AdditionService>();
             builder.Services.AddSingleton<DivideService>();
             builder.Services.AddSingleton<MultiplicationService>();
-            builder.Services.AddSingleton<SoustractionService>();
+            builder.Services.AddSingleton<SubstractionService>();
 
             return builder.Build();
         }

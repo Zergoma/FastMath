@@ -8,18 +8,28 @@ namespace FastMath.Core.Helper
 {
     static public class OperationMaskHelper
     {
-        static readonly Random rdm = Random.Shared;
-        static public EOperationMask CreateRandomMask()
+        static readonly Random Rdm = Random.Shared;
+
+        private static readonly HashSet<EOperationMask> AlwaysExcluded =
+        [
+            EOperationMask.none
+        ];
+
+        public static EOperationMask CreateRandomMask(params EOperationMask[] blacklisted)
         {
-            int val = rdm.Next(3);
-            return val switch
+            var availableValues = Enum.GetValues<EOperationMask>()
+                .Except(AlwaysExcluded)
+                .Except(blacklisted)
+                .ToArray();
+
+            if (availableValues.Length == 0)
             {
-                0 => EOperationMask.left,
-                1 => EOperationMask.right,
-                2 => EOperationMask.result,
-                3 => EOperationMask.none,
-                _ => EOperationMask.result,
-            };
+                throw new InvalidOperationException(
+                    "No available EOperationMask values after blacklist.");
+            }
+
+            int index = Rdm.Next(availableValues.Length);
+            return availableValues[index];
         }
     }
 }

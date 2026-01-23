@@ -33,7 +33,7 @@ public class OpExtensionTests
     [TestMethod]
     public void SouOpOperatorStr()
     {
-        SoustractionOp souOp = new();
+        SubtractionOp souOp = new();
         Assert.AreEqual("-", souOp.GetOperationStr());
     }
 
@@ -84,5 +84,18 @@ public class OpExtensionTests
 
         var resu = mulOp.GetOffuscatedValue(Models.EOperationMask.result);
         Assert.AreEqual(200, resu);
+    }
+
+    [TestMethod]
+    public void BiggestOnLeftTestOk()
+    {
+        RandomOperandOption OperandOption1 = new(Value: 10, zeroAuthorized: true);
+        RandomOperandOption OperandOption2 = new(Value: 20, zeroAuthorized: true);
+        MultiplyOp mulOp = new() { Left = 10, Right = 20 };
+
+        mulOp.BiggestOnLeft();
+
+        
+        Assert.AreEqual(20M, mulOp.Left);
     }
 }

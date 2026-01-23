@@ -123,4 +123,7 @@
   <data name="SimpleMultiplyTitle" xml:space="preserve">
     <value>Simple Multiply</value>
   </data>
+  <data name="SimpleSubstractTitle" xml:space="preserve">
+    <value>Simple Substraction</value>
+  </data>
 </root>

@@ -77,5 +77,14 @@ namespace FastMath.Resources.languages {
                 return ResourceManager.GetString("SimpleMultiplyTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple Substraction.
+        /// </summary>
+        internal static string SimpleSubstractTitle {
+            get {
+                return ResourceManager.GetString("SimpleSubstractTitle", resourceCulture);
+            }
+        }
     }
 }
