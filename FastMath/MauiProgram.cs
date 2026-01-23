@@ -34,6 +34,9 @@ namespace FastMath
             builder.Services.AddTransient<SimpleSubstractView>();
             builder.Services.AddTransient<SimpleSubstractionViewModel>();
 
+            builder.Services.AddTransient<SimpleDivideView>();
+            builder.Services.AddTransient<SimpleDivideViewModel>();
+
 
 
             builder.Services.AddSingleton<AdditionService>();

@@ -126,9 +126,15 @@ namespace FastMath.Core.Extension
             public EOperationMask[] FiltreMask()
             {
                 List<EOperationMask> toret = new();
-                if (operationBase is DivideOp) toret.Add(EOperationMask.left);
                 if (operationBase is SubtractionOp) toret.Add(EOperationMask.left);
                 if (operationBase is MultiplyOp) toret.Add(EOperationMask.left);
+
+                if (operationBase is DivideOp)
+                {
+                    toret.Add(EOperationMask.left);
+                    toret.Add(EOperationMask.right);
+                }
+
                 return toret.ToArray();
             }
         }

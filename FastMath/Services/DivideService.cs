@@ -1,4 +1,5 @@
 ﻿using FastMath.Core.Abstraction;
+using FastMath.Core.Extension;
 using FastMath.Core.Models;
 using FastMath.Core.Models.Operations;
 
@@ -14,11 +15,17 @@ namespace FastMath.Services
                 throw new ArgumentException("The option for operand2 MUST be explicitely ZeroAuthorized to false", nameof(optionOperand2));
             }
 
-            return new DivideOp()
+            var num1 = optionOperand1.GetValue();
+            var num2 = optionOperand2.GetValue();
+            var numresu = num1 * num2;
+
+            DivideOp resu =  new ()
             {
-                Left = optionOperand1.GetValue(),
-                Right = optionOperand2.GetValue()
+                Left = numresu,
+                Right = num2
             };
+
+            return resu;
         }
     }
 }
