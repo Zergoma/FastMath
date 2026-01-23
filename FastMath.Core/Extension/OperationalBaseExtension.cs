@@ -27,33 +27,33 @@ namespace FastMath.Core.Extension
                 operationBase.Right = right;
             }
 
-            public Decimal GetOffuscatedValue(OperationMask mask)
+            public Decimal GetOffuscatedValue(EOperationMask mask)
             {
-                return mask.Masked switch
+                return mask switch
                 {
-                    OperationMasked.left => operationBase.Left,
-                    OperationMasked.right => operationBase.Right,
-                    OperationMasked.result => operationBase.Compute(),
-                    _ => throw new ArgumentOutOfRangeException(nameof(mask.Masked), "Must Left, Right or Result"),
+                    EOperationMask.left => operationBase.Left,
+                    EOperationMask.right => operationBase.Right,
+                    EOperationMask.result => operationBase.Compute(),
+                    _ => throw new ArgumentOutOfRangeException(nameof(mask), "Must Left, Right or Result"),
                 };
             }
 
-            public Decimal GetOffuscatedValueMax(OperationMask mask, ComputeOperandOption left, ComputeOperandOption right)
+            public Decimal GetOffuscatedValueMax(EOperationMask mask, OperandOptionBase left, OperandOptionBase right)
             {
-                return mask.Masked switch
+                return mask switch
                 {
-                    OperationMasked.left => left.MaxOrValue,
-                    OperationMasked.right => right.MaxOrValue,
-                    OperationMasked.result => operationBase.ComputeMax(left, right),
-                    _ => throw new ArgumentOutOfRangeException(nameof(mask.Masked), "Must Left, Right or Result"),
+                    EOperationMask.left => left.GetMax,
+                    EOperationMask.right => right.GetMax,
+                    EOperationMask.result => operationBase.ComputeMax(left, right),
+                    _ => throw new ArgumentOutOfRangeException(nameof(mask), "Must Left, Right or Result"),
                 };
             }
 
-            private Decimal ComputeMax(ComputeOperandOption left, ComputeOperandOption right)
+            private Decimal ComputeMax(OperandOptionBase left, OperandOptionBase right)
             {
-                if (operationBase is AdditionnalOp) return left.MaxOrValue + right.MaxOrValue;
-                if (operationBase is MultiplyOp) return left.MaxOrValue * right.MaxOrValue;
-                if (operationBase is SoustractionOp) return left.MaxOrValue - right.MaxOrValue;
+                if (operationBase is AdditionnalOp) return left.GetMax + right.GetMax;
+                if (operationBase is MultiplyOp) return left.GetMax * right.GetMax;
+                if (operationBase is SoustractionOp) return left.GetMax - right.GetMax;
                 if (operationBase is DivideOp)
                 {
                     if (right.GetValue() == decimal.Zero)
@@ -75,14 +75,14 @@ namespace FastMath.Core.Extension
                 
                 throw new NotImplementedException();
             }
-            public string ToString(OperationMask mask)
+            public string ToString(EOperationMask mask)
             {
-                return mask.Masked switch
+                return mask switch
                 {
-                    OperationMasked.left => $"? {operationBase.GetOperationStr()} {operationBase.Right} = {operationBase.Compute()}",
-                    OperationMasked.right => $"{operationBase.Left} {operationBase.GetOperationStr()} ? = {operationBase.Compute()}",
-                    OperationMasked.result => $"{operationBase.Left} {operationBase.GetOperationStr()} {operationBase.Right} = ?",
-                    OperationMasked.none => $"{operationBase.Left} {operationBase.GetOperationStr()} {operationBase.Right} = {operationBase.Compute()}",
+                    EOperationMask.left => $"? {operationBase.GetOperationStr()} {operationBase.Right} = {operationBase.Compute()}",
+                    EOperationMask.right => $"{operationBase.Left} {operationBase.GetOperationStr()} ? = {operationBase.Compute()}",
+                    EOperationMask.result => $"{operationBase.Left} {operationBase.GetOperationStr()} {operationBase.Right} = ?",
+                    EOperationMask.none => $"{operationBase.Left} {operationBase.GetOperationStr()} {operationBase.Right} = {operationBase.Compute()}",
                     _ => throw new NotImplementedException(),
                 };
             }

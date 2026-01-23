@@ -5,8 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:FastMath.MVVM.Views"
     xmlns:traduction="clr-namespace:FastMath.Resources.languages"
+    xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
     xmlns:local="clr-namespace:FastMath"
     Title="FastMath">
+
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="White">
+            <Label Margin="10,10,0,0" Text="FastMath" FontSize="Title"/>
+            <skia:SKLottieView Source="Green_calculator.json" 
+                               RepeatCount="-1"
+                               HeightRequest="200"/>
+        </Grid>
+    </Shell.FlyoutHeader>
 
     <FlyoutItem Title="{Static traduction:Trad.SimpleAdditionTitle}">
         <Tab>
@@ -14,6 +24,16 @@
                 Title="{Static traduction:Trad.SimpleAdditionTitle}"
                 ContentTemplate="{DataTemplate views:SimpleAdditionView}"
                 Route="SimpleAdditionView"/>
+
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{Static traduction:Trad.SimpleMultiplyTitle}">
+        <Tab>
+            <ShellContent
+            Title="{Static traduction:Trad.SimpleMultiplyTitle}"
+            ContentTemplate="{DataTemplate views:MultiplyView}"
+            Route="SimpleMultiplyView"/>
 
         </Tab>
     </FlyoutItem>

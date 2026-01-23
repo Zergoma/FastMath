@@ -3,6 +3,7 @@ using FastMath.MVVM.ViewModels;
 using FastMath.MVVM.Views;
 using FastMath.Services;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace FastMath
 {
@@ -22,14 +23,18 @@ namespace FastMath
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.UseSkiaSharp();
 
             builder.Services.AddTransient<SimpleAdditionView>();
             builder.Services.AddTransient<SimpleAdditionViewModel>();
 
-            builder.Services.AddSingleton<IGetAddition, AdditionService>();
-            builder.Services.AddSingleton<IGetDivide, DivideService>();
-            builder.Services.AddSingleton<IGetMultiplication, MultiplicationService>();
-            builder.Services.AddSingleton<IGetSoustraction, SoustractionService>();
+            builder.Services.AddTransient<MultiplyView>();
+            builder.Services.AddTransient<SimpleMultiplyViewModel>();
+
+            builder.Services.AddSingleton<AdditionService>();
+            builder.Services.AddSingleton<DivideService>();
+            builder.Services.AddSingleton<MultiplicationService>();
+            builder.Services.AddSingleton<SoustractionService>();
 
             return builder.Build();
         }

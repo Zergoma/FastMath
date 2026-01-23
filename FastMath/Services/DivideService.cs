@@ -5,16 +5,16 @@ using FastMath.Core.Models.Operations;
 
 namespace FastMath.Services
 {
-    public class DivideService : IGetDivide
+    public class DivideService : IGetOperation
     {
-        public DivideOp GetDivide(ComputeOperandOption optionOperand1, ComputeOperandOption optionOperand2)
+        public OperationalBase CreateOperation(OperandOptionBase optionOperand1, OperandOptionBase optionOperand2)
         {
-            if(optionOperand2.CanBeUsedForDivide() is false)
+            if (optionOperand2.CanBeUsedForDivide() is false)
             {
                 throw new ArgumentException("The option for operand2 MUST be explicitely ZeroAuthorized to false", nameof(optionOperand2));
             }
 
-            return new()
+            return new DivideOp()
             {
                 Left = optionOperand1.GetValue(),
                 Right = optionOperand2.GetValue()
