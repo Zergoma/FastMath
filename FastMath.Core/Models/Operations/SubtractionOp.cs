@@ -2,7 +2,7 @@
 
 namespace FastMath.Core.Models.Operations
 {
-    public class SoustractionOp : OperationalBase
+    public class SubtractionOp : OperationalBase
     {
         public override Decimal Compute()
         {
