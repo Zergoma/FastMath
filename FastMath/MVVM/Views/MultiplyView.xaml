@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FastMath.MVVM.Views.MultiplyView"
+             xmlns:traduction="clr-namespace:FastMath.Resources.languages"
+             xmlns:vm="clr-namespace:FastMath.MVVM.ViewModels"
+             xmlns:model="clr-namespace:FastMath.Core.Models;assembly=FastMath.Core"
+             x:DataType="vm:SimpleOperationBaseViewModel"
+             Title="{Static traduction:Trad.SimpleMultiplyTitle}">
+    
+    <Grid RowDefinitions=".5*,.3*,.1*">
+
+        <Label Text="{Binding OperationText}"
+           FontSize="50"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"/>
+
+        <FlexLayout Grid.Row="1"
+                x:Name="AnswerFlex"
+                Wrap="Wrap"
+                BindableLayout.ItemsSource="{Binding PossibledAnswers}"
+                Margin="20"
+                JustifyContent="SpaceEvenly">
+
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="model:SuggestedAnswer">
+                    <Button Text="{Binding Value}" WidthRequest="150" HeightRequest="80"
+                        FontSize="30"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        Command="{Binding Source={x:Reference AnswerFlex},
+                                          Path=BindingContext.VerifyCalculCommand}"
+                        CommandParameter="{Binding .}"
+                        >
+
+                    </Button>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+
+        </FlexLayout>
+
+
+    </Grid>
+</ContentPage>

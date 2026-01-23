@@ -4,11 +4,11 @@ using FastMath.Core.Models.Operations;
 
 namespace FastMath.Services
 {
-    public class AdditionService : IGetAddition
+    public class AdditionService : IGetOperation
     {
-        public AdditionnalOp GetAddition(ComputeOperandOption optionOperand1, ComputeOperandOption optionOperand2)
+        public OperationalBase CreateOperation(OperandOptionBase optionOperand1, OperandOptionBase optionOperand2)
         {
-            return new()
+            return new AdditionnalOp()
             {
                 Left = optionOperand1.GetValue(),
                 Right = optionOperand2.GetValue()

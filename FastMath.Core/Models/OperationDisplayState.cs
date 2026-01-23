@@ -6,6 +6,8 @@ namespace FastMath.Core.Models
     public record OperationDisplayState(
         OperationalBase Operation,
         EOperationMask Mask,
-        OperationalVisibility Visibility
+        OperationalVisibility Visibility,
+        OperandOptionBase LeftOperandOption,
+        OperandOptionBase RightOperandOption
     );
 }

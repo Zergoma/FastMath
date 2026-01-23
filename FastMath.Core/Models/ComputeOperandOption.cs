@@ -50,7 +50,7 @@ namespace FastMath.Core.Models
             ZeroAuthorized = zeroAuthorized;
             if(ZeroAuthorized is false)
             {
-                ArgumentOutOfRangeException.ThrowIfZero(maxOrValue, nameof(zeroAuthorized));
+                ArgumentOutOfRangeException.ThrowIfZero(maxOrValue, nameof(maxOrValue));
             }
 
             Dof = randOrFixed;
