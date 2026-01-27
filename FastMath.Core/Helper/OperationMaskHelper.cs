@@ -1,8 +1,4 @@
 ﻿using FastMath.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
 
 namespace FastMath.Core.Helper
 {
@@ -21,15 +17,15 @@ namespace FastMath.Core.Helper
                 .Except(AlwaysExcluded)
                 .Except(blacklisted)
                 .ToArray();
+            
+            int nbElem = availableValues.Length;
 
-            if (availableValues.Length == 0)
+            return nbElem switch
             {
-                throw new InvalidOperationException(
-                    "No available EOperationMask values after blacklist.");
-            }
-
-            int index = Rdm.Next(availableValues.Length);
-            return availableValues[index];
+                0 => throw new InvalidOperationException("No available EOperationMask values after blacklist."),
+                1 => availableValues[0],
+                _ => availableValues[Rdm.Next(nbElem)],
+            };
         }
     }
 }

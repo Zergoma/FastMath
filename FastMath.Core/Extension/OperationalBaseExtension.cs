@@ -1,10 +1,6 @@
 ﻿using FastMath.Core.Abstraction;
 using FastMath.Core.Models;
 using FastMath.Core.Models.Operations;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
 
 namespace FastMath.Core.Extension
 {
@@ -62,12 +58,14 @@ namespace FastMath.Core.Extension
             /// <exception cref="NotImplementedException">Thrown when the current operation type is not supported by this method.</exception>
             private Decimal ComputeMax(OperandOptionBase left, OperandOptionBase right)
             {
-                if (operationBase is AdditionnalOp) return left.GetMax + right.GetMax;
-                if (operationBase is MultiplyOp) return left.GetMax * right.GetMax;
-                if (operationBase is SubtractionOp) return Math.Max(left.GetMax, right.GetMax);
-                if (operationBase is DivideOp) return Math.Max(left.GetMax, right.GetMax);
-
-                throw new NotImplementedException();
+                return operationBase switch
+                {
+                    AdditionnalOp => left.GetMax + right.GetMax,
+                    MultiplyOp => left.GetMax * right.GetMax,
+                    SubtractionOp => Math.Max(left.GetMax, right.GetMax),
+                    DivideOp => Math.Max(left.GetMax, right.GetMax),
+                    _ => throw new NotImplementedException(),
+                };
             }
 
             /// <summary>
@@ -80,12 +78,14 @@ namespace FastMath.Core.Extension
             /// <exception cref="NotImplementedException">Thrown if the operation type is not recognized.</exception>
             public string GetOperationStr()
             {
-                if (operationBase is AdditionnalOp) return "+";
-                if (operationBase is DivideOp) return "/";
-                if (operationBase is MultiplyOp) return "x";
-                if (operationBase is SubtractionOp) return "-";
-                
-                throw new NotImplementedException();
+                return operationBase switch
+                {
+                    AdditionnalOp => "+",
+                    DivideOp => "/",
+                    MultiplyOp => "x",
+                    SubtractionOp => "-",
+                    _ => throw new NotImplementedException()
+                };
             }
             public string ToString(EOperationMask mask)
             {
@@ -125,17 +125,15 @@ namespace FastMath.Core.Extension
             /// current operation. The array is empty if no masks are applicable.</returns>
             public EOperationMask[] FiltreMask()
             {
-                List<EOperationMask> toret = new();
-                if (operationBase is SubtractionOp) toret.Add(EOperationMask.left);
-                if (operationBase is MultiplyOp) toret.Add(EOperationMask.left);
-
-                if (operationBase is DivideOp)
+                List<EOperationMask> prohibitedPosition = operationBase switch
                 {
-                    toret.Add(EOperationMask.left);
-                    toret.Add(EOperationMask.right);
-                }
+                    SubtractionOp => [EOperationMask.left],
+                    MultiplyOp => [EOperationMask.left],
+                    DivideOp => [EOperationMask.left, EOperationMask.right],
+                    _ => []
+                };
 
-                return toret.ToArray();
+                return prohibitedPosition.ToArray();
             }
         }
     }
