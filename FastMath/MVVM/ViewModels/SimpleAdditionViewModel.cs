@@ -11,12 +11,8 @@ using ListShuffle;
 
 namespace FastMath.MVVM.ViewModels
 {
-    public partial class SimpleAdditionViewModel : SimpleOperationBaseViewModel
+    public partial class SimpleAdditionViewModel(AdditionService service, GenerateSimpleOperationHelper generateSimpleOperation)
+        : SimpleOperationBaseViewModel(service, generateSimpleOperation)
     {
-        public SimpleAdditionViewModel(AdditionService service) : base()
-        {
-            OperationService = service;
-            GenerateNewOp();
-        }
     }
 }
