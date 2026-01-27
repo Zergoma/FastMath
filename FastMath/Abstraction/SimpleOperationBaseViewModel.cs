@@ -2,23 +2,40 @@
 using CommunityToolkit.Mvvm.Input;
 using FastMath.Core.Abstraction;
 using FastMath.Core.Extension;
-using FastMath.Core.Helper;
 using FastMath.Core.Models;
+using FastMath.Core.Models.GenerateOperation;
 using FastMath.Core.Models.OperandOption;
-using ListShuffle;
 
 
 namespace FastMath.MVVM.ViewModels
 {
     abstract public partial class SimpleOperationBaseViewModel : ObservableObject
     {
-        protected IGetOperation OperationService;
-        public SimpleOperationBaseViewModel()
+        readonly IGetOperation OperationService;
+        readonly IGenerateOperation GenerateOperationService;
+        
+        public SimpleOperationBaseViewModel(IGetOperation operation,
+                                            IGenerateOperation generateOperationService,
+                                            OperandOptionBase LeftOperandOption,
+                                            OperandOptionBase RightOperandOption)
         {
+            OperationService = operation;
+            GenerateOperationService = generateOperationService;
+
             NbSuggestedElement = 4;
 
-            OperandOption1 = new RandomOperandOption(Value: 10);
-            OperandOption2 = new RandomOperandOption(Value: 10);
+            OperandOption1 = LeftOperandOption;
+            OperandOption2 = RightOperandOption;
+
+            GenerateNewOp();
+        }
+
+        public SimpleOperationBaseViewModel(IGetOperation operation, IGenerateOperation generateOperationService)
+                : this(operation, generateOperationService,
+                      new RandomOperandOption(10),
+                      new RandomOperandOption(10))
+        {
+
         }
 
         [ObservableProperty]
@@ -102,33 +119,21 @@ namespace FastMath.MVVM.ViewModels
 
         protected void GenerateNewOp()
         {
-            var leftOperandOption = OperandOption1;
-            var rightOperandOption = OperandOption2;
-            var opservice = OperationService;
+            GenerateOperationParameters genParameter = new
+            (
+                OperandOption1,
+                OperandOption2,
+                OperationService
+            );
+
+            GenerateOperationResult genResult = GenerateOperationService.GenerateOperation(genParameter);
+
+            PossibledAnswers = GenerateOperationService.GenerateSuggestedList(genResult, genParameter, NbSuggestedElement);
             
-
-            OperationalVisibility visibility = new()
-            {
-                Mode = OperationalVisibility.VisibilityMode.UseMask
-            };
-
-            var op = opservice.CreateOperation(leftOperandOption, rightOperandOption);
-
-            EOperationMask opMask = OperationMaskHelper.CreateRandomMask(op.FiltreMask());
-
-            List<SuggestedAnswer> resu = new()
-            {
-                new(){ Value = op.GetOffuscatedValue(opMask), IsGoodSolution = true},
-            };
-
-            SuggestedListHelper.GenerateList(NbSuggestedElement, resu, op.GetOffuscatedValueMax(opMask, leftOperandOption, rightOperandOption));
-            resu.Shuffle();
-            PossibledAnswers = resu;
-
-            DisplayState = new OperationDisplayState(op, opMask, visibility, 
-                                                        LeftOperandOption: leftOperandOption,
-                                                        RightOperandOption: rightOperandOption);
+            DisplayState = new OperationDisplayState(
+                genResult.Operation,
+                genResult.Mask,
+                new OperationalVisibility() { Mode = OperationalVisibility.VisibilityMode.UseMask });
         }
     }
-    
 }

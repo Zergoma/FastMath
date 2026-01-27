@@ -1,4 +1,5 @@
 ﻿using FastMath.Core.Abstraction;
+using FastMath.Core.Helper;
 using FastMath.MVVM.ViewModels;
 using FastMath.MVVM.Views;
 using FastMath.Services;
@@ -37,12 +38,13 @@ namespace FastMath
             builder.Services.AddTransient<SimpleDivideView>();
             builder.Services.AddTransient<SimpleDivideViewModel>();
 
-
+            builder.Services.AddTransient<GenerateSimpleOperationHelper>();
 
             builder.Services.AddSingleton<AdditionService>();
             builder.Services.AddSingleton<DivideService>();
             builder.Services.AddSingleton<MultiplicationService>();
             builder.Services.AddSingleton<SubstractionService>();
+            builder.Services.AddSingleton<SubstractionServiceBiggestOnLeft>();
 
             return builder.Build();
         }
