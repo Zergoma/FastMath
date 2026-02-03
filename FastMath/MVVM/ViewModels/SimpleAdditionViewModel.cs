@@ -1,18 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FastMath.Core.Abstraction;
-using FastMath.Core.Extension;
-using FastMath.Core.Helper;
-using FastMath.Core.Models;
-using FastMath.Core.Models.OperandOption;
+﻿using FastMath.Core.Helpers;
+using FastMath.Core.Interfaces;
+using FastMath.Helper;
 using FastMath.Services;
-using ListShuffle;
-
 
 namespace FastMath.MVVM.ViewModels
 {
-    public partial class SimpleAdditionViewModel(AdditionService service, GenerateSimpleOperationHelper generateSimpleOperation)
-        : SimpleOperationBaseViewModel(service, generateSimpleOperation)
+    public partial class SimpleAdditionViewModel : SimpleOperationBaseViewModel
     {
+        public SimpleAdditionViewModel([FromKeyedServices(OperationServiceKeys.Addition)] IGetOperation service,
+                                       GenerateSimpleOperationHelper generateSimpleOperation,
+                                       [FromKeyedServices(SettingHelperKeys.Addition)] IGetUserSetting settingHelper)
+            : base(service,
+                   generateSimpleOperation,
+                   settingHelper)
+        {
+        }
     }
 }

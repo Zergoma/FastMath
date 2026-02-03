@@ -1,4 +1,4 @@
-﻿using FastMath.Core.Models.Operations;
+﻿using FastMath.Core.Models.OperationsWorld.Operations.Types;
 
 namespace FastMath.Core.Tests
 {

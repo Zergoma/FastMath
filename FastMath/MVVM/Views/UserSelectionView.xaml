@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FastMath.MVVM.Views.UserSelectionView"
+             xmlns:vm="clr-namespace:FastMath.MVVM.ViewModels"
+             xmlns:model="clr-namespace:FastMath.Core.Models.UserConfiguration;assembly=FastMath.Core"
+             Title="UserSelectionView">
+
+    
+    <Grid VerticalOptions="Center" 
+          HorizontalOptions="Center"
+          RowDefinitions=".15*, .65*, .2*">
+        <Label 
+            Text="Select a user"
+            FontAttributes="Bold"
+            FontSize="40"
+            VerticalOptions="Start" 
+            HorizontalOptions="Center"
+            Margin="0,10,0,50"/>
+
+        <CollectionView Grid.Row="1"
+                        x:DataType="vm:UserSelectionViewModel"
+                        SelectionMode="Single"
+                        ItemsSource="{Binding Users}"
+                        SelectedItem="{Binding SelectedUser}"
+                        SelectionChangedCommand="{Binding UserIsSelectedCommand}"
+                        HeightRequest="400"
+                        WidthRequest="300"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:UserSetting">
+                    <Border StrokeShape="RoundRectangle 20"
+                            HeightRequest="60">
+                        
+                        <Label Text="{Binding Name}"
+                               FontSize="25"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            
+        </CollectionView>
+
+        <Button Grid.Row="2"
+                Text="Create User"
+                FontAttributes="Bold"
+                FontSize="20"
+                Command="{Binding CreateUserCommand}"
+                WidthRequest="200"
+                HeightRequest="80"
+                CornerRadius="30"/>
+
+    </Grid>
+        
+</ContentPage>

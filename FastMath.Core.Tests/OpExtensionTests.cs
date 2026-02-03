@@ -1,7 +1,7 @@
-using FastMath.Core.Extension;
-using FastMath.Core.Models;
-using FastMath.Core.Models.OperandOption;
-using FastMath.Core.Models.Operations;
+using FastMath.Core.Enums;
+using FastMath.Core.Extensions;
+using FastMath.Core.Models.OperationsWorld.Operand.OperandMetaParameter.Types;
+using FastMath.Core.Models.OperationsWorld.Operations.Types;
 
 namespace FastMath.Core.Tests;
 
@@ -59,13 +59,13 @@ public class OpExtensionTests
         RandomOperandOption OperandOption2 = new (Value: 10, zeroAuthorized: true);
         AdditionnalOp addOp = new() { Left = 10, Right = 20 };
 
-        var left = addOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
+        var left = addOp.GetOffuscatedValueMax(EOperationMask.left, left: OperandOption1, right: OperandOption2);
         Assert.AreEqual(10M, left);
 
-        var right = addOp.GetOffuscatedValue(Models.EOperationMask.right);
+        var right = addOp.GetOffuscatedValue(EOperationMask.right);
         Assert.AreEqual(20M, right);
 
-        var resu = addOp.GetOffuscatedValue(Models.EOperationMask.result);
+        var resu = addOp.GetOffuscatedValue(EOperationMask.result);
         Assert.AreEqual(30, resu);
     }
 
@@ -76,13 +76,13 @@ public class OpExtensionTests
         RandomOperandOption OperandOption2 = new(Value: 10, zeroAuthorized: true);
         MultiplyOp mulOp = new() { Left = 10, Right = 20 };
 
-        var left = mulOp.GetOffuscatedValueMax(Models.EOperationMask.left, left: OperandOption1, right: OperandOption2);
+        var left = mulOp.GetOffuscatedValueMax(EOperationMask.left, left: OperandOption1, right: OperandOption2);
         Assert.AreEqual(10M, left);
 
-        var right = mulOp.GetOffuscatedValue(Models.EOperationMask.right);
+        var right = mulOp.GetOffuscatedValue(EOperationMask.right);
         Assert.AreEqual(20M, right);
 
-        var resu = mulOp.GetOffuscatedValue(Models.EOperationMask.result);
+        var resu = mulOp.GetOffuscatedValue(EOperationMask.result);
         Assert.AreEqual(200, resu);
     }
 

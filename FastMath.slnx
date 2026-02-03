@@ -1,6 +1,11 @@
 <Solution>
-  <Project Path="FastMath.Core.Tests/FastMath.Core.Tests.csproj" />
-  <Project Path="FastMath.Core/FastMath.Core.csproj" />
+  <Folder Name="/Libs/">
+    <Project Path="FastMath.Core/FastMath.Core.csproj" />
+    <Project Path="FastMath.Infrastructure/FastMath.Infrastructure.csproj" Id="3f550eb0-ad94-4e7c-acbc-b2adabd29a41" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="FastMath.Core.Tests/FastMath.Core.Tests.csproj" />
+  </Folder>
   <Project Path="FastMath/FastMath.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
