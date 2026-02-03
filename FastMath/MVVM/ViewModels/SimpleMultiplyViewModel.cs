@@ -1,20 +1,19 @@
-﻿using FastMath.Core.Models.OperandOption;
+﻿using FastMath.Core.Helpers;
+using FastMath.Core.Interfaces;
+using FastMath.Helper;
 using FastMath.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FastMath.MVVM.ViewModels
 {
-
     public partial class SimpleMultiplyViewModel : SimpleOperationBaseViewModel
     {
-        public SimpleMultiplyViewModel(MultiplicationService service) : base()
+        public SimpleMultiplyViewModel([FromKeyedServices(OperationServiceKeys.Multiplication)] IGetOperation service,
+                                       GenerateSimpleOperationHelper generateSimpleOperation,
+                                       [FromKeyedServices(SettingHelperKeys.Multiplication)] IGetUserSetting settingHelper)
+            : base(service,
+                   generateSimpleOperation,
+                   settingHelper)
         {
-            OperationService = service;
-            OperandOption1 = new RandomOperandOption(Value: 10, zeroAuthorized:false);
-            OperandOption2 = new RandomOperandOption(Value: 10, zeroAuthorized: false);
-            GenerateNewOp();
         }
     }
 }

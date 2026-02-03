@@ -1,19 +1,19 @@
-﻿using FastMath.Core.Models.Operations;
+﻿using FastMath.Core.Helpers;
+using FastMath.Core.Interfaces;
+using FastMath.Helper;
 using FastMath.Services;
-
 
 namespace FastMath.MVVM.ViewModels
 {
     public partial class SimpleSubstractionViewModel : SimpleOperationBaseViewModel
     {
-        public SimpleSubstractionViewModel(SubstractionService service) : base()
+        public SimpleSubstractionViewModel([FromKeyedServices(OperationServiceKeys.Subtraction)] IGetOperation service,
+                                           GenerateSimpleOperationHelper generateSimpleOperation,
+                                           [FromKeyedServices(SettingHelperKeys.Subtraction)] IGetUserSetting settingHelper)
+            : base(service,
+                   generateSimpleOperation,
+                   settingHelper)
         {
-            OperationService = service;
-
-            // We want the result of the subtraction to be positive
-            // We force the service to provide us with values sorted in descending order
-            service.BiggestOnLeft = true;
-            GenerateNewOp();
         }
     }
 }

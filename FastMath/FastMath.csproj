@@ -58,7 +58,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="ListShuffle" Version="2.1.3" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.30" />
 		<PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.30" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.2" />
@@ -67,6 +66,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\FastMath.Core\FastMath.Core.csproj" />
+	  <ProjectReference Include="..\FastMath.Infrastructure\FastMath.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -95,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\SimpleSubstractView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\UserSelectionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

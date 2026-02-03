@@ -1,6 +1,13 @@
-﻿using FastMath.Core.Abstraction;
+﻿using FastMath.Core.Factories;
+using FastMath.Core.Helpers;
+using FastMath.Core.Interfaces;
+using FastMath.Core.Models.OperationsWorld.OperationParameters;
+using FastMath.Core.Models.OperationsWorld.OperationParameters.Types;
+using FastMath.Core.Models.UserConfiguration;
+using FastMath.Helper;
 using FastMath.MVVM.ViewModels;
 using FastMath.MVVM.Views;
+using FastMath.Serialization;
 using FastMath.Services;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -25,6 +32,9 @@ namespace FastMath
 #endif
             builder.UseSkiaSharp();
 
+            builder.Services.AddTransient<UserSelectionView>();
+            builder.Services.AddTransient<UserSelectionViewModel>();
+
             builder.Services.AddTransient<SimpleAdditionView>();
             builder.Services.AddTransient<SimpleAdditionViewModel>();
 
@@ -37,12 +47,28 @@ namespace FastMath
             builder.Services.AddTransient<SimpleDivideView>();
             builder.Services.AddTransient<SimpleDivideViewModel>();
 
+            builder.Services.AddTransient<GenerateSimpleOperationHelper>();
 
 
-            builder.Services.AddSingleton<AdditionService>();
-            builder.Services.AddSingleton<DivideService>();
-            builder.Services.AddSingleton<MultiplicationService>();
-            builder.Services.AddSingleton<SubstractionService>();
+            builder.Services.AddSingleton<ICurrentUser, User>();
+            builder.Services.AddSingleton<ICreate<OperationSettingParametersBase>, OriginParametersFactory>();
+
+
+            builder.Services.AddKeyedTransient<IGetUserSetting, SettingHelper<AdditionSimpleParameters>>(SettingHelperKeys.Addition);
+            builder.Services.AddKeyedTransient<IGetUserSetting, SettingHelper<DivideSimpleParameters>>(SettingHelperKeys.Division);
+            builder.Services.AddKeyedTransient<IGetUserSetting, SettingHelper<MultiplySimpleParameters>>(SettingHelperKeys.Multiplication);
+            builder.Services.AddKeyedTransient<IGetUserSetting, SettingHelper<SubstractSimpleParameters>>(SettingHelperKeys.Subtraction);
+
+
+            builder.Services.AddKeyedSingleton<IGetOperation, AdditionService>(OperationServiceKeys.Addition);
+            builder.Services.AddKeyedSingleton<IGetOperation, DivideService>(OperationServiceKeys.Division);
+            builder.Services.AddKeyedSingleton<IGetOperation, MultiplicationService>(OperationServiceKeys.Multiplication);
+            builder.Services.AddKeyedSingleton<IGetOperation, SubstractionService>(OperationServiceKeys.Subtraction);
+            builder.Services.AddKeyedSingleton<IGetOperation, SubstractionServiceBiggestOnLeft>(SpecificOperationServiceKeys.BiggestOnLeft);
+
+
+            builder.Services.AddKeyedSingleton<IDataLayer<UserSettingCollection>, ConfigsXmlDataLayer<UserSettingCollection>>(DataLayerKeys.xml);
+            builder.Services.AddKeyedSingleton<IDataLayer<UserSettingCollection>, ConfigsJsonDataLayer<UserSettingCollection>>(DataLayerKeys.json);
 
             return builder.Build();
         }

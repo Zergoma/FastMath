@@ -1,29 +1,51 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FastMath.Core.Abstraction;
-using FastMath.Core.Extension;
-using FastMath.Core.Helper;
+using FastMath.Core.Enums;
+using FastMath.Core.Extensions;
+using FastMath.Core.Interfaces;
 using FastMath.Core.Models;
-using FastMath.Core.Models.OperandOption;
-using ListShuffle;
+using FastMath.Core.Models.OperationsWorld.Display;
+using FastMath.Core.Models.OperationsWorld.GenerateOperation;
+using FastMath.Core.Models.OperationsWorld.Operand.OperandMetaParameter;
+using System.Diagnostics;
 
 
 namespace FastMath.MVVM.ViewModels
 {
     abstract public partial class SimpleOperationBaseViewModel : ObservableObject
     {
-        protected IGetOperation OperationService;
-        public SimpleOperationBaseViewModel()
-        {
-            NbSuggestedElement = 4;
+        readonly IGetOperation OperationService;
+        readonly IGenerateOperation GenerateOperationService;
+        private IGetUserSetting UsableSetting { get; init; }
 
-            OperandOption1 = new RandomOperandOption(Value: 10);
-            OperandOption2 = new RandomOperandOption(Value: 10);
+        public SimpleOperationBaseViewModel(IGetOperation operationService,
+                                            IGenerateOperation generateOperationService,
+                                            IGetUserSetting usableSetting)
+        {
+            OperationService = operationService;
+            GenerateOperationService = generateOperationService;
+            UsableSetting = usableSetting;
+
+            SimpleOperationBaseInitData userSettings = UsableSetting.GetUsableSettings();
+
+            NbSuggestedElement = userSettings.NbSuggested;
+
+            OperandOption1 = userSettings.Left;
+            OperandOption2 = userSettings.Right;
+
+            GenerateNewOp();
         }
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(OperationText))]
-        private OperationDisplayState displayState = default!;
+        private OperationDisplayState? _displayState;
+        private OperationDisplayState? DisplayState
+        {
+            get => _displayState;
+            set
+            {
+                SetProperty(ref _displayState, value);
+                OnPropertyChanged(nameof(OperationText));
+            }
+        }
 
         public string OperationText
         {
@@ -47,17 +69,27 @@ namespace FastMath.MVVM.ViewModels
             }
         }
 
-        [ObservableProperty]
-        List<SuggestedAnswer> possibledAnswers = new();
 
-        [ObservableProperty]
-        OperandOptionBase operandOption1;
+        private List<SuggestedAnswer> _possibleAnswers = [];
+        public List<SuggestedAnswer> PossibleAnswers
+        {
+            get => _possibleAnswers;
+            set
+            {
+                SetProperty(ref _possibleAnswers, value);
+            }
+        }
 
-        [ObservableProperty]
-        OperandOptionBase operandOption2;
 
-        [ObservableProperty]
-        int nbSuggestedElement;
+        private OperandOptionBase? _operandOption1 = null;
+        public OperandOptionBase? OperandOption1 { get => _operandOption1; set { SetProperty(ref _operandOption1, value); } }
+
+        private OperandOptionBase? _operandOption2 = null;
+        public OperandOptionBase? OperandOption2 { get => _operandOption2; set { SetProperty(ref _operandOption2, value); } }
+
+        int _nbSuggestedElement = 4;
+        public int NbSuggestedElement { get => _nbSuggestedElement; set => SetProperty(ref _nbSuggestedElement, value); }
+
 
         private bool CanVerify() => !isBusy;
         private bool isBusy;
@@ -76,6 +108,12 @@ namespace FastMath.MVVM.ViewModels
                 }
 
                 var current = DisplayState;
+                if (current is null)
+                {
+                    Debug.WriteLine("DisplayState is null");
+                    return;
+                }
+
                 DisplayState = current with
                 {
                     Visibility = new OperationalVisibility
@@ -88,9 +126,9 @@ namespace FastMath.MVVM.ViewModels
 
                 GenerateNewOp();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Debug.WriteLine(ex);
                 throw;
             }
             finally
@@ -102,33 +140,24 @@ namespace FastMath.MVVM.ViewModels
 
         protected void GenerateNewOp()
         {
-            var leftOperandOption = OperandOption1;
-            var rightOperandOption = OperandOption2;
-            var opservice = OperationService;
-            
+            ArgumentNullException.ThrowIfNull(OperandOption1, nameof(OperandOption1));
+            ArgumentNullException.ThrowIfNull(OperandOption2, nameof(OperandOption2));
 
-            OperationalVisibility visibility = new()
-            {
-                Mode = OperationalVisibility.VisibilityMode.UseMask
-            };
+            GenerateOperationParameters genParameter = new
+            (
+                OperandOption1,
+                OperandOption2,
+                OperationService
+            );
 
-            var op = opservice.CreateOperation(leftOperandOption, rightOperandOption);
+            GenerateOperationResult genResult = GenerateOperationService.GenerateOperation(genParameter);
 
-            EOperationMask opMask = OperationMaskHelper.CreateRandomMask(op.FiltreMask());
+            PossibleAnswers = GenerateOperationService.GenerateSuggestedList(genResult, genParameter, NbSuggestedElement);
 
-            List<SuggestedAnswer> resu = new()
-            {
-                new(){ Value = op.GetOffuscatedValue(opMask), IsGoodSolution = true},
-            };
-
-            SuggestedListHelper.GenerateList(NbSuggestedElement, resu, op.GetOffuscatedValueMax(opMask, leftOperandOption, rightOperandOption));
-            resu.Shuffle();
-            PossibledAnswers = resu;
-
-            DisplayState = new OperationDisplayState(op, opMask, visibility, 
-                                                        LeftOperandOption: leftOperandOption,
-                                                        RightOperandOption: rightOperandOption);
+            DisplayState = new OperationDisplayState(
+                genResult.Operation,
+                genResult.Mask,
+                new OperationalVisibility() { Mode = OperationalVisibility.VisibilityMode.UseMask });
         }
     }
-    
 }
