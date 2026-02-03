@@ -18,7 +18,7 @@
         <FlexLayout Grid.Row="1"
             x:Name="AnswerFlex"
             Wrap="Wrap"
-            BindableLayout.ItemsSource="{Binding PossibledAnswers}"
+            BindableLayout.ItemsSource="{Binding PossibleAnswers}"
             Margin="20"
             JustifyContent="SpaceEvenly">
 

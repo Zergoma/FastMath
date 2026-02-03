@@ -66,6 +66,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\FastMath.Core\FastMath.Core.csproj" />
+	  <ProjectReference Include="..\FastMath.Infrastructure\FastMath.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -94,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\SimpleSubstractView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\UserSelectionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

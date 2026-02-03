@@ -1,16 +1,20 @@
-﻿using FastMath.Core.Helper;
-using FastMath.Core.Models.OperandOption;
+﻿using FastMath.Core.Helpers;
+using FastMath.Core.Interfaces;
+using FastMath.Helper;
 using FastMath.Services;
 
 
 namespace FastMath.MVVM.ViewModels
 {
-    public partial class SimpleDivideViewModel : SimpleOperationBaseViewModel
+    public partial class SimpleDivideViewModel
+        : SimpleOperationBaseViewModel
     {
-        public SimpleDivideViewModel(DivideService service, GenerateSimpleOperationHelper generateSimpleOperation)
-            : base(service, generateSimpleOperation,
-                  new RandomOperandOption(Value: 10, zeroAuthorized: false),
-                  new RandomOperandOption(Value: 10, zeroAuthorized: false))
+        public SimpleDivideViewModel([FromKeyedServices(OperationServiceKeys.Division)]IGetOperation service,
+                                     GenerateSimpleOperationHelper generateSimpleOperation,
+                                     [FromKeyedServices(SettingHelperKeys.Division)] IGetUserSetting settingHelper)
+            : base(service,
+                   generateSimpleOperation,
+                   settingHelper)
         {
         }
     }

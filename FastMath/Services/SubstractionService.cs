@@ -1,6 +1,8 @@
-﻿using FastMath.Core.Abstraction;
-using FastMath.Core.Extension;
-using FastMath.Core.Models.Operations;
+﻿using FastMath.Core.Extensions;
+using FastMath.Core.Interfaces;
+using FastMath.Core.Models.OperationsWorld.Operand.OperandMetaParameter;
+using FastMath.Core.Models.OperationsWorld.Operations;
+using FastMath.Core.Models.OperationsWorld.Operations.Types;
 
 namespace FastMath.Services
 {
